@@ -11,10 +11,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "moment": "^2.18.1",
     "promise-polyfill": "^6.0.2",
     "wepy": "^1.5.8",
     "wepy-async-function": "^1.4.4",
-    "wepy-com-toast": "^1.0.2"
+    "wepy-com-toast": "^1.0.2",
+    "weui-wxss": "^1.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",

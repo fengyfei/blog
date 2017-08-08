@@ -27,45 +27,38 @@
  *     Initial: 2017/08/08        Feng Yifei
  */
 
-import wepy from 'wepy'
-import moment from 'moment'
+<template>
+  <view class="weui-panel">
+    <view class="weui-panel__bd">
+      <view class="weui-media-box weui-media-box_text">
+        <view class="weui-media-box__title weui-media-box__title_in-text">{{message.title}}</view>
+        <view class="weui-media-box__info">
+          <view class="weui-media-box__info__meta">{{message.created}}</view>
+          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{message.labels}}</view>
+        </view>
+      </view>
+    </view>
+</view>
+</template>
 
-const BaseURL = 'https://api.github.com'
-
-const Github = {
-  Issues: '/repos/fengyfei/blog/issues?state=open'
+<style lang="less">
+.placeholder{
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #EBEBEB;
+    height: 2.3em;
+    line-height: 2.3em;
+    color: #cfcfcf;
 }
+</style>
 
-export async function listIssues () {
-  try {
-    let resp = await wepy.request({url: BaseURL + Github.Issues})
+<script>
+import wepy from 'wepy'
 
-    if (resp.statusCode === 200) {
-      let issues = []
-
-      resp.data.forEach((el) => {
-        let labels = []
-
-        el.labels.forEach((l) => {
-          labels.push(l.name)
-        })
-
-        issues.unshift({
-          title: el.title,
-          created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
-          labels: (labels.length === 0) ? '' : labels.join(','),
-          body: el.body,
-          url: el.url
-        })
-      })
-
-      return issues
-    }
-
-    return []
-  } catch (e) {
-    console.log(e)
-
-    return []
+export default class Abstract extends wepy.component {
+  props = {
+    message: Object
   }
 }
+</script>
