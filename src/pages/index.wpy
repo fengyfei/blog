@@ -27,17 +27,20 @@
  *     Initial: 2017/08/08        Feng Yifei
  */
 
-<style lang="less">
-</style>
-
 <template>
-  <view class="container">
-    
+  <view class="page">
+    <repeat for="{{message}}" key="index" index="index" item="item">
+      <abstract :message="item" />
+    </repeat>
   </view>
 </template>
 
+<style lang="less">
+</style>
+
 <script>
   import wepy from 'wepy'
+  import Abstract from '../components/abstract'
   import { listIssues } from '../libs/github'
 
   export default class Index extends wepy.page {
@@ -46,9 +49,11 @@
     }
 
     components = {
+      abstract: Abstract
     }
 
     data = {
+      message: []
     }
 
     computed = {
@@ -63,9 +68,8 @@
     }
 
     async onLoad() {
-      let issues = await listIssues()
-
-      console.log('onLoad issues:' + JSON.stringify(issues))
+      this.message = await listIssues()
+      this.$apply()
     }
   }
 </script>
