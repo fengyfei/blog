@@ -28,7 +28,7 @@
  */
 
 <style lang="less">
-@import 'node_modules/weui-wxss/src/style/weui.wxss';
+@import './style/weui.wxss';
 </style>
 
 <script>
