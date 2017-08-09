@@ -1,0 +1,42 @@
+<style lang="less">
+</style>
+
+<template>
+  <view class="topBorder"></view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { getHeight } from '../util/system'
+
+  export default class All extends wepy.page {
+    data = {
+      windowHeight: 0,
+      windowWidth: 0
+    }
+
+    config = {
+      navigationBarTitleText: '全部'
+    }
+
+    methods = {}
+
+    onLoad() {
+      let self = this
+
+      if (getCurrentPages().length === 1) {
+        try {
+          self.windowHeight = wepy.getStorageSync('windowHeight')
+          self.windowWidth = wepy.getStorageSync('windowWidth')
+        } catch (e) {}
+      } else {
+        wepy.getSystemInfo({
+          success: function (res) {
+            self.windowHeight = res.windowHeight
+            self.windowWidth = res.windowWidth
+          }
+        })
+      }
+    }
+  }
+</script>

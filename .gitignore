@@ -3,3 +3,5 @@ node_modules
 dist
 .DB_store
 .wepycache
+.idea
+npm-debug.log

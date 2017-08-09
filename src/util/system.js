@@ -24,43 +24,19 @@
 
 /*
  * Revision History:
- *     Initial: 2017/08/08        Feng Yifei
+ *     Initial: 2017/08/08        Lin Hao
  */
 
-<template>
-  <view class="item" @tap="tap">
-    <image src="{{image}}">
-    </image>
-    <view class="weui-media-box__info">
-      <view class="weui-media-box__info__meta">{{message.created}}</view>
-      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{message.labels}}</view>
-    </view>
-  </view>
-</template>
 
-<style lang="less">
-  .item {
-    margin: 19px;
-    padding-bottom: 1rem;
-  }
-  .itemBottom {
-    margin-top: 0.4rem;
-  }
-</style>
-
-<script>
-import wepy from 'wepy'
-
-export default class Abstract extends wepy.component {
-  props = {
-    message: Object,
-    image: String
-  }
-
-  methods = {
-    tap() {
-      this.$emit('childFn')
-    }
-  }
+function getHeight(windowHeight, height) {
+  return (windowHeight / 667) * height
 }
-</script>
+
+function getWidth(windowWidth, width) {
+  return (windowWidth / 375) * width
+}
+
+module.exports = {
+  getHeight,
+  getWidth
+}

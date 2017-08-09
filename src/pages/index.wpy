@@ -28,9 +28,10 @@
  */
 
 <template>
+  <view class="topBorder"></view>
   <view class="page">
     <repeat for="{{message}}" key="index" index="index" item="item">
-      <abstract :message="item" />
+      <abstract :message="item" :image="images[index]" @childFn.user="onShowDetail"/>
     </repeat>
   </view>
 </template>
@@ -41,7 +42,7 @@
 <script>
   import wepy from 'wepy'
   import Abstract from '../components/abstract'
-  import { listIssues } from '../libs/github'
+  import { mapIssues, listIssues } from '../libs/github'
 
   export default class Index extends wepy.page {
     config = {
@@ -53,7 +54,8 @@
     }
 
     data = {
-      message: []
+      message: [],
+      images: []
     }
 
     computed = {
@@ -63,13 +65,47 @@
     }
 
     methods = {
-      plus () {
+      onShowDetail(evt) {
+        try {
+          wepy.setStorageSync('body', evt.source.message.body)
+        } catch (e) {
+        }
+
+        wepy.navigateTo({
+          url: './detail'
+        })
+      }
+    }
+
+    watch = {
+      message (newValue, oldValue) {
+        if (newValue) {
+          wepy.hideToast()
+        }
       }
     }
 
     async onLoad() {
-      this.message = await listIssues()
+      let self = this
+
+      self.message = await listIssues()
+
+      self.images = await mapIssues()
+
       this.$apply()
+    }
+
+    onShow() {
+      let self = this
+
+      if (self.message.length === 0) {
+        wepy.showToast({
+          title: '正在加载...',
+          icon: 'loading',
+          mask: 'true',
+          duration: 6000
+        })
+      }
     }
   }
 </script>

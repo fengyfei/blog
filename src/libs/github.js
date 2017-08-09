@@ -33,7 +33,34 @@ import moment from 'moment'
 const BaseURL = 'https://api.github.com'
 
 const Github = {
-  Issues: '/repos/fengyfei/blog/issues?state=open'
+  Issues: '/repos/fengyfei/blog/issues?state=open',
+  Map: '/repos/fengyfei/blog/issues?state=close'
+}
+
+export async function mapIssues () {
+  try {
+    let resp = await wepy.request({url: BaseURL + Github.Map})
+
+    if (resp.statusCode === 200) {
+      let images = []
+
+      resp.data.forEach((el) => {
+        if (el.state === 'closed') {
+          JSON.parse(el.body).map.forEach((item) => {
+            images.push(item.url)
+          })
+        }
+      })
+
+      return images
+    }
+
+    return []
+  } catch (e) {
+    console.log(e)
+
+    return []
+  }
 }
 
 export async function listIssues () {

@@ -1,0 +1,54 @@
+<style lang="less">
+  .content {
+    background-color: #f6f8fa;
+  }
+  .card {
+    background-color: white;
+    margin: 0 12px;
+    box-shadow: 1px 1px 1px 1px #efefef;
+    border-radius: 2px;
+  }
+  .descText {
+    line-height: 1.1rem;
+    font-size: 1rem;
+    color: #333333;
+  }
+</style>
+
+<template>
+  <view class="topBorder"></view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { getHeight } from '../util/system'
+
+  export default class Description extends wepy.page {
+    data = {
+      windowHeight: 0,
+      windowWidth: 0
+    }
+
+    config = {
+      navigationBarTitleText: '介绍'
+    }
+
+    onLoad() {
+      let self = this
+
+      if (getCurrentPages().length === 1) {
+        try {
+          self.windowHeight = wepy.getStorageSync('windowHeight')
+          self.windowWidth = wepy.getStorageSync('windowWidth')
+        } catch (e) {}
+      } else {
+        wepy.getSystemInfo({
+          success: function (res) {
+            self.windowHeight = res.windowHeight
+            self.windowWidth = res.windowWidth
+          }
+        })
+      }
+    }
+  }
+</script>

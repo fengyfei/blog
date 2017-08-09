@@ -28,7 +28,15 @@
  */
 
 <style lang="less">
-@import './style/weui.wxss';
+  @import './style/weui.wxss';
+  .topBorder {
+    height: 1rpx;
+    width: 100%;
+    background-color: #cccccc;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+  }
 </style>
 
 <script>
@@ -39,13 +47,44 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/index',
+      'pages/description',
+      'pages/all',
+      'pages/mine',
+      'pages/detail'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      backgroundColor: '#fff',
+      borderStyle: 'black',
+      color: '#666666',
+      selectedColor: '#e91e63',
+      list: [{
+        pagePath: 'pages/index',
+        iconPath: 'images/home.png',
+        selectedIconPath: 'images/home_active.png',
+        text: '主页'
+      }, {
+        pagePath: 'pages/all',
+        iconPath: 'images/all.png',
+        selectedIconPath: 'images/all_active.png',
+        text: '全部'
+      }, {
+        pagePath: 'pages/description',
+        iconPath: 'images/desc.png',
+        selectedIconPath: 'images/desc_active.png',
+        text: '介绍'
+      }, {
+        pagePath: 'pages/mine',
+        iconPath: 'images/mine.png',
+        selectedIconPath: 'images/mine_active.png',
+        text: '我'
+      }]
     }
   }
 
