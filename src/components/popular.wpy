@@ -37,6 +37,8 @@
   }
   .itemBottom {
     margin-top: 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .title {
     font-weight: bolder;
@@ -62,7 +64,7 @@
     <view style="width: {{windowWidth - 38}}px;" class="itemBottom">
       <text class="title">{{message.name}}</text>
     </view>
-    <view class="itemBottom">
+    <view class="itemBottom" style="width: {{windowWidth - 38}}px;">
 			<text>{{message.description}}</text>
     </view>
     <view style="width: {{windowWidth - 38}}px;" class="itemBottom">

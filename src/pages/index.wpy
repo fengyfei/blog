@@ -130,7 +130,7 @@
 
         wepy.showLoading({
           title: '正在加载...',
-          mask: 'true'
+          mask: true
         })
 
         // 重新获取数据
@@ -160,7 +160,7 @@
 
       wepy.showLoading({
         title: '正在加载...',
-        mask: 'true'
+        mask: true
       })
 
       let windowSize = await getWindowSize()
