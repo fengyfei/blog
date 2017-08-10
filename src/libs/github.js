@@ -35,7 +35,8 @@ const BaseURL = 'https://api.github.com'
 
 const Github = {
   Issues: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=open`,
-  Map: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=close`
+  Map: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=close`,
+  Mine: `/repos/fengyfei/blog/issues/5?access_token=${accessToken}`
 }
 
 export async function mapIssues () {
@@ -72,19 +73,21 @@ export async function listIssues () {
       let issues = []
 
       resp.data.forEach((el) => {
-        let labels = []
+        if (el.number !== 5) {
+          let labels = []
 
-        el.labels.forEach((l) => {
-          labels.push(l.name)
-        })
+          el.labels.forEach((l) => {
+            labels.push(l.name)
+          })
 
-        issues.unshift({
-          title: el.title,
-          created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
-          labels: (labels.length === 0) ? '' : labels.join(','),
-          body: el.body,
-          url: el.url
-        })
+          issues.unshift({
+            title: el.title,
+            created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
+            labels: (labels.length === 0) ? '' : labels.join(','),
+            body: el.body,
+            url: el.url
+          })
+        }
       })
 
       return [issues, 0]
@@ -95,5 +98,23 @@ export async function listIssues () {
     console.log(e)
 
     return [[], 1]
+  }
+}
+
+export async function mine () {
+  try {
+    let resp = await wepy.request({url: BaseURL + Github.Mine})
+
+    if (resp.statusCode === 200) {
+      let mineInfo = JSON.parse(resp.data.body).info
+
+      return mineInfo
+    }
+
+    return {}
+  } catch (e) {
+    console.log(e)
+
+    return {}
   }
 }
