@@ -30,7 +30,7 @@
 <template>
   <view>
     <view class="topBorder"></view>
-    <view class="page" wx:if="{{status == 0}}">
+    <view class="page" wx:if="{{status === 0}}">
       <repeat for="{{message}}" key="index" index="index" item="item">
         <abstract :message="item" :image="images[index]" :width="windowWidth" @childFn.user="onShowDetail" />
       </repeat>
@@ -133,8 +133,15 @@
         self.message = data[0]
         self.status = data[1]
 
-        if (!isNaN(self.status)) {
+        if (self.status === 0) {
           await wepy.hideLoading()
+        } else {
+          await wepy.hideLoading()
+          await wepy.showToast({
+            title: '加载失败!',
+            image: '../images/fail.png',
+            duration: 2000
+          })
         }
 
         this.$apply()
@@ -150,20 +157,25 @@
       })
 
       let windowSize = await getWindowSize()
-
+      let data = await listIssues()
+      
       self.windowWidth = windowSize.windowWidth
       self.windowHeight = windowSize.windowHeight
 
       self.images = await mapIssues()
-
-      let data = await listIssues()
-
       self.message = data[0]
       self.status = data[1]
 
-      if (!isNaN(self.status)) {
-        await wepy.hideLoading()
-      }
+      if (self.status === 0) {
+          await wepy.hideLoading()
+        } else {
+          await wepy.hideLoading()
+          await wepy.showToast({
+            title: '加载失败!',
+            image: '../images/fail.png',
+            duration: 2000
+          })
+        }
 
       this.$apply()
     }
