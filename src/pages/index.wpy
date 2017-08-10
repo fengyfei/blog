@@ -112,6 +112,7 @@
       onShowDetail(evt) {
         try {
           wepy.setStorageSync('body', evt.source.message.body)
+          wepy.setStorageSync('title', evt.source.message.title)
         } catch (e) {
         }
 

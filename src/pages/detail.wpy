@@ -52,7 +52,7 @@
 
   export default class Detail extends wepy.page {
     config = {
-      navigationBarTitleText: '详情'
+      navigationBarTitleText: '正在加载标题...'
     }
 
     data = {
@@ -67,6 +67,15 @@
 
     onLoad() {
       let self = this
+
+      try {
+        let title = wepy.getStorageSync('title')
+
+        wepy.setNavigationBarTitle({
+          title: title
+        })
+      } catch (e) {
+      }
 
       if (getCurrentPages().length === 1) {
         try {
@@ -83,8 +92,9 @@
       }
 
       try {
-        let value = wepy.getStorageSync('body')
-        weMark.parse(value, self, {
+        let body = wepy.getStorageSync('body')
+
+        weMark.parse(body, self, {
           name: 'data'
         })
       } catch (e) {
