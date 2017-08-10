@@ -30,11 +30,12 @@
 import wepy from 'wepy'
 import moment from 'moment'
 
+const accessToken = '7d0888fd5c1c386610f7306707fb3638d944dcee'
 const BaseURL = 'https://api.github.com'
 
 const Github = {
-  Issues: '/repos/fengyfei/blog/issues?state=open',
-  Map: '/repos/fengyfei/blog/issues?state=close'
+  Issues: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=open`,
+  Map: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=close`
 }
 
 export async function mapIssues () {

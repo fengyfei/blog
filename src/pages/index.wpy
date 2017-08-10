@@ -134,11 +134,18 @@
         if (!isNaN(self.status)) {
           await wepy.hideLoading()
         }
+
+        this.$apply()
       }
     }
 
     async onLoad() {
       let self = this
+
+      wepy.showLoading({
+        title: '正在加载...',
+        mask: 'true'
+      })
 
       let windowSize = await getWindowSize()
 
@@ -151,11 +158,6 @@
 
       self.message = data[0]
       self.status = data[1]
-
-      wepy.showLoading({
-        title: '正在加载...',
-        mask: 'true'
-      })
 
       if (!isNaN(self.status)) {
         await wepy.hideLoading()
