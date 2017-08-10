@@ -39,6 +39,7 @@ const Github = {
   Mine: `/repos/fengyfei/blog/issues/5?access_token=${accessToken}`
 }
 
+// 获取 issues 对应的图片
 export async function mapIssues () {
   try {
     let resp = await wepy.request({url: BaseURL + Github.Map})
@@ -48,6 +49,7 @@ export async function mapIssues () {
 
       resp.data.forEach((el) => {
         if (el.state === 'closed') {
+          // 解析 json 数据
           JSON.parse(el.body).map.forEach((item) => {
             images.push(item.url)
           })
@@ -65,6 +67,7 @@ export async function mapIssues () {
   }
 }
 
+// 获取 issues 列表
 export async function listIssues () {
   try {
     let resp = await wepy.request({url: BaseURL + Github.Issues})
@@ -80,6 +83,7 @@ export async function listIssues () {
             labels.push(l.name)
           })
 
+          // 将数据存入变量 issues
           issues.unshift({
             title: el.title,
             created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
@@ -101,11 +105,13 @@ export async function listIssues () {
   }
 }
 
+// 获取个人信息
 export async function mine () {
   try {
     let resp = await wepy.request({url: BaseURL + Github.Mine})
 
     if (resp.statusCode === 200) {
+      // 解析 json 数据
       let mineInfo = JSON.parse(resp.data.body).info
 
       return mineInfo

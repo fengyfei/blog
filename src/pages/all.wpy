@@ -53,6 +53,7 @@
     onLoad() {
       let self = this
 
+      // 获取可用屏幕宽高
       if (getCurrentPages().length === 1) {
         try {
           self.windowHeight = wepy.getStorageSync('windowHeight')

@@ -109,18 +109,22 @@
     }
 
     methods = {
+      // 查看文章详情
       onShowDetail(evt) {
+        // 将文章标题存入本地缓存
         try {
           wepy.setStorageSync('body', evt.source.message.body)
           wepy.setStorageSync('title', evt.source.message.title)
         } catch (e) {
         }
 
+        // 跳转到详情页
         wepy.navigateTo({
           url: './detail'
         })
       },
 
+      // 点击屏幕重新加载
       async onTapToReload() {
         let self = this
 
@@ -129,11 +133,13 @@
           mask: 'true'
         })
 
+        // 重新获取数据
         let data = await listIssues()
 
         self.message = data[0]
         self.status = data[1]
 
+        // 加载成功直接显示，失败则提示用户
         if (self.status === 0) {
           await wepy.hideLoading()
         } else {

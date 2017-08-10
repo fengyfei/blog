@@ -68,6 +68,7 @@
     onLoad() {
       let self = this
 
+      // 动态设置文章标题
       try {
         let title = wepy.getStorageSync('title')
 
@@ -77,6 +78,7 @@
       } catch (e) {
       }
 
+      // 获取可用屏幕宽高
       if (getCurrentPages().length === 1) {
         try {
           self.windowHeight = wepy.getStorageSync('windowHeight')
@@ -91,6 +93,7 @@
         })
       }
 
+      // 获取文章内容
       try {
         let body = wepy.getStorageSync('body')
 

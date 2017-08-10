@@ -110,6 +110,7 @@
     }
 
     methods = {
+      // 点击选项
       labelTap(e) {
         let self = this
         let item = ''
@@ -117,9 +118,11 @@
 
         item = self.userInfo.contact[Number(id)]
 
+        // 弹起 Action Sheet
         wepy.showActionSheet({
           itemList: [item]
-        }).then(function() {          
+        }).then(function() {
+          // 点击列表项即可复制    
           wx.setClipboardData({
             data: item,
             success: function(res) {
@@ -140,6 +143,7 @@
 
       self.userInfo = await mine()
 
+      // 获取可用屏幕宽高
       if (getCurrentPages().length === 1) {
         try {
           self.windowHeight = wepy.getStorageSync('windowHeight')
