@@ -29,11 +29,16 @@
 
 <template>
   <view class="item" @tap="tap">
-    <image src="{{image}}">
+    <image src="{{image}}"
+      style="width: {{width - 38}}px; height: {{(width - 38) / 14.4 * 9}}px;">
     </image>
-    <view class="weui-media-box__info">
-      <view class="weui-media-box__info__meta">{{message.created}}</view>
-      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{message.labels}}</view>
+    <view style="width: {{windowWidth - 38}}px;" class="itemBottom">
+      <text class="title">{{message.title}}</text>
+    </view>
+    <view style="width: {{windowWidth - 38}}px;" class="itemBottom">
+      <text class="subTitle">{{message.created}}</text>
+      <text class="subTitle separate">{{separate}}</text>
+      <text class="subTitle">{{message.labels}}</text>
     </view>
   </view>
 </template>
@@ -46,15 +51,31 @@
   .itemBottom {
     margin-top: 0.4rem;
   }
+  .title {
+    font-weight: bolder;
+    font-size: 1.1rem;
+  }
+  .subTitle {
+    color: #999999;
+    font-size: 0.7rem;
+  }
+  .separate {
+    padding: 0 10px;
+  }
 </style>
 
 <script>
 import wepy from 'wepy'
 
 export default class Abstract extends wepy.component {
+  data = {
+    separate: '|'
+  }
+
   props = {
     message: Object,
-    image: String
+    image: String,
+    width: Number
   }
 
   methods = {

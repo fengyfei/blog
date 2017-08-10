@@ -86,13 +86,13 @@ export async function listIssues () {
         })
       })
 
-      return issues
+      return [issues, 0]
     }
 
-    return []
+    return [[], 1]
   } catch (e) {
     console.log(e)
 
-    return []
+    return [[], 1]
   }
 }

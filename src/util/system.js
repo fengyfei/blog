@@ -27,16 +27,30 @@
  *     Initial: 2017/08/08        Lin Hao
  */
 
+import wepy from 'wepy'
 
-function getHeight(windowHeight, height) {
+export function getHeight(windowHeight, height) {
   return (windowHeight / 667) * height
 }
 
-function getWidth(windowWidth, width) {
+export function getWidth(windowWidth, width) {
   return (windowWidth / 375) * width
 }
 
-module.exports = {
-  getHeight,
-  getWidth
+export async function getWindowSize () {
+  try {
+    let info = await wepy.getSystemInfo()
+
+    let windowSize = {
+      windowWidth: info.windowWidth,
+      windowHeight: info.windowHeight
+    }
+
+    try {
+      wepy.setStorageSync('windowHeight', info.windowHeight)
+      wepy.setStorageSync('windowWidth', info.windowWidth)
+    } catch (e) {}
+
+    return windowSize
+  } catch (e) {}
 }

@@ -29,20 +29,57 @@
 
 <template>
   <view class="topBorder"></view>
-  <view class="page">
+  <view class="page" wx:if="{{status == 0}}">
     <repeat for="{{message}}" key="index" index="index" item="item">
-      <abstract :message="item" :image="images[index]" @childFn.user="onShowDetail"/>
+      <abstract :message="item" :image="images[index]" :width="windowWidth" @childFn.user="onShowDetail"/>
     </repeat>
+  </view>
+  <view
+    wx:else
+    @tap="onTapToReload"
+    class="networkFailContent"
+    style="height: {{windowHeight}}px;">
+    <view class="networkFail">
+      <image
+        src="../images/wifi.png"
+        style="height: 2rem; width: 2rem;"></image>
+      <text
+        class="failText"
+        style="font-size: 1rem;">{{networkFail}}</text>
+      <text
+        class="reloadText"
+        style="font-size: 1rem;">{{tapToReload}}</text>
+    </view>
   </view>
 </template>
 
 <style lang="less">
+  .networkFailContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f8fa;
+  }
+  .networkFail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f6f8fa;
+  }
+  .failText {
+    color: #2c2c2c;
+    margin: 6px 0;
+  }
+  .reloadText {
+    color: #999999;
+  }
 </style>
 
 <script>
   import wepy from 'wepy'
   import Abstract from '../components/abstract'
   import { mapIssues, listIssues } from '../libs/github'
+  import { getWindowSize } from '../util/system'
 
   export default class Index extends wepy.page {
     config = {
@@ -54,8 +91,13 @@
     }
 
     data = {
+      windowHeight: 0,
+      windowWidth: 0,
       message: [],
-      images: []
+      images: [],
+      networkFail: '网络请求失败',
+      tapToReload: '请轻触屏幕重新加载',
+      status: 0
     }
 
     computed = {
@@ -74,13 +116,23 @@
         wepy.navigateTo({
           url: './detail'
         })
-      }
-    }
+      },
 
-    watch = {
-      message (newValue, oldValue) {
-        if (newValue) {
-          wepy.hideToast()
+      async onTapToReload() {
+        let self = this
+
+        wepy.showLoading({
+          title: '正在加载...',
+          mask: 'true'
+        })
+
+        let data = await listIssues()
+
+        self.message = data[0]
+        self.status = data[1]
+
+        if (!isNaN(self.status)) {
+          await wepy.hideLoading()
         }
       }
     }
@@ -88,24 +140,28 @@
     async onLoad() {
       let self = this
 
-      self.message = await listIssues()
+      let windowSize = await getWindowSize()
+
+      self.windowWidth = windowSize.windowWidth
+      self.windowHeight = windowSize.windowHeight
 
       self.images = await mapIssues()
 
-      this.$apply()
-    }
+      let data = await listIssues()
 
-    onShow() {
-      let self = this
+      self.message = data[0]
+      self.status = data[1]
 
-      if (self.message.length === 0) {
-        wepy.showToast({
-          title: '正在加载...',
-          icon: 'loading',
-          mask: 'true',
-          duration: 6000
-        })
+      wepy.showLoading({
+        title: '正在加载...',
+        mask: 'true'
+      })
+
+      if (!isNaN(self.status)) {
+        await wepy.hideLoading()
       }
+
+      this.$apply()
     }
   }
 </script>
