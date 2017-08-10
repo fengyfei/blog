@@ -24,7 +24,7 @@
 
 /*
  * Revision History:
- *     Initial: 2017/08/08        Lin Hao
+ *     Initial: 2017/08/09        Lin Hao
  */
 
 import wepy from 'wepy'
