@@ -48,7 +48,6 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/description',
       'pages/all',
       'pages/mine',
       'pages/detail'
@@ -74,11 +73,6 @@ export default class extends wepy.app {
         iconPath: 'images/all.png',
         selectedIconPath: 'images/all_active.png',
         text: '全部'
-      }, {
-        pagePath: 'pages/description',
-        iconPath: 'images/desc.png',
-        selectedIconPath: 'images/desc_active.png',
-        text: '介绍'
       }, {
         pagePath: 'pages/mine',
         iconPath: 'images/mine.png',
