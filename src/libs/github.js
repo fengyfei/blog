@@ -36,7 +36,8 @@ const BaseURL = 'https://api.github.com'
 const Github = {
   Issues: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=open`,
   Map: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=close`,
-  Mine: `/repos/fengyfei/blog/issues/5?access_token=${accessToken}`
+  Mine: `/repos/fengyfei/blog/issues/5?access_token=${accessToken}`,
+  Popular: `/search/repositories?access_token=${accessToken}`
 }
 
 // 获取 issues 对应的图片
@@ -122,5 +123,22 @@ export async function mine () {
     console.log(e)
 
     return {}
+  }
+}
+
+// 获取 Github 上星数最多的项目
+export async function getPopular (language, page) {
+  try {
+    let resp = await wepy.request({url: BaseURL + Github.Popular + '&q=language:' + language + '&sort=stars&page=' + page})
+
+    if (resp.statusCode === 200) {
+      return [resp.data.items, 0]
+    }
+
+    return [[], 1]
+  } catch (e) {
+    console.log(e)
+
+    return [[], 1]
   }
 }

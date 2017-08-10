@@ -28,45 +28,64 @@
  */
 
 <style lang="less">
+  .item {
+    margin: 1rem;
+    background-color: #f6f8fa;
+    padding: 0.6rem;
+    border-radius: 2px;
+    box-shadow: 1px 1px 1px 1px #efefef;
+  }
+  .itemBottom {
+    margin-top: 0.4rem;
+  }
+  .title {
+    font-weight: bolder;
+    font-size: 1.1rem;
+  }
+  .subTitle {
+    color: #999999;
+    font-size: 0.7rem;
+  }
+  .separate {
+    padding: 0 1rem;
+  }
+  .image {
+    background-color: #efefef;
+  }
+  .starLabel {
+    margin-left: 0.3rem;
+  }
 </style>
 
 <template>
-  <view class="topBorder"></view>
+  <view class="item">
+    <view style="width: {{windowWidth - 38}}px;" class="itemBottom">
+      <text class="title">{{message.name}}</text>
+    </view>
+    <view class="itemBottom">
+			<text>{{message.description}}</text>
+    </view>
+    <view style="width: {{windowWidth - 38}}px;" class="itemBottom">
+      <text class="subTitle">{{message.language}}</text>
+      <text class="subTitle separate">{{separate}}</text>
+      <text class="subTitle">{{message.stargazers_count}}</text>
+      <text class="subTitle starLabel">{{starLabel}}</text>
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { getHeight } from '../util/system'
 
-  export default class All extends wepy.page {
+  export default class Abstract extends wepy.component {
     data = {
-      windowHeight: 0,
-      windowWidth: 0
+      separate: '|',
+      starLabel: 'stars'
     }
 
-    config = {
-      navigationBarTitleText: '全部'
-    }
-
-    methods = {}
-
-    onLoad() {
-      let self = this
-
-      // 获取可用屏幕宽高
-      if (getCurrentPages().length === 1) {
-        try {
-          self.windowHeight = wepy.getStorageSync('windowHeight')
-          self.windowWidth = wepy.getStorageSync('windowWidth')
-        } catch (e) {}
-      } else {
-        wepy.getSystemInfo({
-          success: function (res) {
-            self.windowHeight = res.windowHeight
-            self.windowWidth = res.windowWidth
-          }
-        })
-      }
+    props = {
+      message: Object,
+      width: Number
     }
   }
 </script>

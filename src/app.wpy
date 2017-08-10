@@ -47,8 +47,8 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/github',
       'pages/index',
-      'pages/all',
       'pages/mine',
       'pages/detail'
     ],
@@ -61,17 +61,17 @@ export default class extends wepy.app {
     tabBar: {
       backgroundColor: '#fff',
       borderStyle: 'black',
-      color: '#666666',
-      selectedColor: '#e91e63',
+      color: '#999999',
+      selectedColor: '#333333',
       list: [{
         pagePath: 'pages/index',
         iconPath: 'images/home.png',
         selectedIconPath: 'images/home_active.png',
         text: '主页'
       }, {
-        pagePath: 'pages/all',
-        iconPath: 'images/all.png',
-        selectedIconPath: 'images/all_active.png',
+        pagePath: 'pages/github',
+        iconPath: 'images/github.png',
+        selectedIconPath: 'images/github_active.png',
         text: '全部'
       }, {
         pagePath: 'pages/mine',

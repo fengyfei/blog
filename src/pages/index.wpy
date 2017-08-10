@@ -27,6 +27,28 @@
  *     Initial: 2017/08/08        Feng Yifei
  */
 
+<style lang="less">
+  .networkFailContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f8fa;
+  }
+  .networkFail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f6f8fa;
+  }
+  .failText {
+    color: #2c2c2c;
+    margin: 6px 0;
+  }
+  .reloadText {
+    color: #999999;
+  }
+</style>
+
 <template>
   <view>
     <view class="topBorder"></view>
@@ -54,28 +76,6 @@
     </view>
   </view>
 </template>
-
-<style lang="less">
-  .networkFailContent {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f6f8fa;
-  }
-  .networkFail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f6f8fa;
-  }
-  .failText {
-    color: #2c2c2c;
-    margin: 6px 0;
-  }
-  .reloadText {
-    color: #999999;
-  }
-</style>
 
 <script>
   import wepy from 'wepy'
@@ -174,15 +174,15 @@
       self.status = data[1]
 
       if (self.status === 0) {
-          await wepy.hideLoading()
-        } else {
-          await wepy.hideLoading()
-          await wepy.showToast({
-            title: '加载失败!',
-            image: '../images/fail.png',
-            duration: 2000
-          })
-        }
+        await wepy.hideLoading()
+      } else {
+        await wepy.hideLoading()
+        await wepy.showToast({
+          title: '加载失败!',
+          image: '../images/fail.png',
+          duration: 2000
+        })
+      }
 
       this.$apply()
     }
