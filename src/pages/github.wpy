@@ -143,7 +143,7 @@
       tapToReload: '请轻触屏幕重新加载',
       tab: ['go', 'javascript', 'erlang', 'lua', 'swift'],
       color: ['#375eab', '#f1e05a', '#b83998', '#000080', '#ffac45'],
-      language: 'javascript',
+      language: 'go',
       page: 1,
       status: 0,
       currentTargetId: 0
