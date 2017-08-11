@@ -48,6 +48,9 @@
     color: #999999;
     font-size: 0.7rem;
   }
+  .desc {
+    color: #333333;
+  }
   .separate {
     padding: 0 1rem;
   }
@@ -65,7 +68,7 @@
       <text class="title">{{message.name}}</text>
     </view>
     <view class="itemBottom" style="width: {{windowWidth - 38}}px;">
-			<text>{{message.description}}</text>
+			<text class="desc">{{message.description}}</text>
     </view>
     <view style="width: {{windowWidth - 38}}px;" class="itemBottom">
       <text class="subTitle">{{message.language}}</text>

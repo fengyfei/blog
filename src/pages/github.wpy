@@ -93,8 +93,8 @@
           wx:key="{{index}}"
           id="{{index}}"
           @tap="onChoose">
-            <view wx:if="{{currentTargetId === index}}" class="tabItem active_tabItem">
-              <text class="tabText active_tabText">{{item}}</text>
+            <view wx:if="{{currentTargetId === index}}" class="tabItem" style="border-bottom: 3px solid {{color[currentTargetId]}};">
+              <text class="tabText" style="color: {{color[currentTargetId]}};">{{item}}</text>
             </view>
             <view wx:else class="tabItem">
               <text class="tabText">{{item}}</text>
@@ -141,7 +141,8 @@
       popular: [],
       networkFail: '网络请求失败',
       tapToReload: '请轻触屏幕重新加载',
-      tab: ['javascript', 'go', 'swift'],
+      tab: ['go', 'javascript', 'erlang', 'lua', 'swift'],
+      color: ['#375eab', '#f1e05a', '#b83998', '#000080', '#ffac45'],
       language: 'javascript',
       page: 1,
       status: 0,
@@ -180,7 +181,7 @@
           await wepy.showToast({
             title: '加载失败!',
             image: '../images/fail.png',
-            duration: 2000
+            duration: 1500
           })
         }
 
@@ -213,7 +214,7 @@
           await wepy.showToast({
             title: '加载失败!',
             image: '../images/fail.png',
-            duration: 2000
+            duration: 1500
           })
         }
 
@@ -244,7 +245,7 @@
         })
       }
 
-      let data = await getPopular(self.language, self.page)
+      let data = await getPopular(self.language, 1)
 
       self.popular = data[0]
       self.status = data[1]
@@ -256,7 +257,7 @@
         await wepy.showToast({
           title: '加载失败!',
           image: '../images/fail.png',
-          duration: 2000
+          duration: 1500
         })
       }
 
@@ -266,37 +267,36 @@
     async onReachBottom() {
       let self = this
 
-      if (!self.status) {
-        if (self.page === 1) {
-          wepy.showLoading({
-            title: '正在加载...',
-            mask: true
-          })
+      if (self.page === 1) {
+        wepy.showLoading({
+          title: '正在加载...',
+          mask: true
+        })
 
-          self.page += 1
-          let data = await getPopular(self.language, self.page)
+        self.page += 1
 
-          self.popular = self.popular.concat(data[0])
-          self.status = data[1]
+        let data = await getPopular(self.language, 2)
 
-          if (self.status === 0) {
-            await wepy.hideLoading()
-          } else {
-            await wepy.hideLoading()
-            await wepy.showToast({
-              title: '加载失败!',
-              image: '../images/fail.png',
-              duration: 2000
-            })
-          }
+        self.popular = self.popular.concat(data[0])
+        self.status = data[1]
+
+        if (self.status === 0) {
+          await wepy.hideLoading()
         } else {
+          await wepy.hideLoading()
           await wepy.showToast({
-            title: '这些就够了!',
-            mask: true,
+            title: '加载失败!',
             image: '../images/fail.png',
-            duration: 1000
+            duration: 1500
           })
         }
+      } else {
+        await wepy.showToast({
+          title: '就先这样吧!',
+          mask: true,
+          image: '../images/fail.png',
+          duration: 1000
+        })
       }
 
       this.$apply()
