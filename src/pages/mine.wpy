@@ -141,7 +141,7 @@
     async onLoad() {
       let self = this
 
-      self.userInfo = await mine()
+      self.userInfo = (await mine()).info
 
       // 获取可用屏幕宽高
       if (getCurrentPages().length === 1) {
@@ -156,6 +156,27 @@
             self.windowWidth = res.windowWidth
           }
         })
+      }
+
+      this.$apply()
+    }
+
+    async onShow() {
+      let self = this
+
+      try {
+        let avatarLastUpdated = wepy.getStorageSync('avatarLastUpdated')
+
+        let user = await mine()
+
+        console.log(avatarLastUpdated)
+        console.log(user)
+
+        if (avatarLastUpdated !== user.last) {
+          self.userInfo = user.info
+        }
+      } catch (e) {
+        console.log(e)
       }
 
       this.$apply()

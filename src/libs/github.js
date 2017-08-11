@@ -35,7 +35,7 @@ const BaseURL = 'https://api.github.com'
 
 const Github = {
   Issues: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=open`,
-  Map: `/repos/fengyfei/blog/issues?access_token=${accessToken}&state=close`,
+  Index: `/repos/fengyfei/blog/issues/2?access_token=${accessToken}`,
   Mine: `/repos/fengyfei/blog/issues/5?access_token=${accessToken}`,
   Popular: `/search/repositories?access_token=${accessToken}`
 }
@@ -43,21 +43,28 @@ const Github = {
 // 获取 issues 对应的图片
 export async function mapIssues () {
   try {
-    let resp = await wepy.request({url: BaseURL + Github.Map})
+    let resp = await wepy.request({url: BaseURL + Github.Index})
 
     if (resp.statusCode === 200) {
       let images = []
+      let last = ''
 
-      resp.data.forEach((el) => {
-        if (el.state === 'closed') {
-          // 解析 json 数据
-          JSON.parse(el.body).map.forEach((item) => {
-            images.push(item.url)
-          })
-        }
+      // 解析 json 数据
+      let data = JSON.parse(resp.data.body)
+
+      last = data.last
+
+      try {
+        wepy.setStorageSync('lastUpdated', data.last)
+      } catch (e) {
+        console.log(e)
+      }
+
+      data.map.forEach((item) => {
+        images.push(item.url)
       })
 
-      return images
+      return [images, last]
     }
 
     return []
@@ -113,9 +120,15 @@ export async function mine () {
 
     if (resp.statusCode === 200) {
       // 解析 json 数据
-      let mineInfo = JSON.parse(resp.data.body).info
+      let user = JSON.parse(resp.data.body)
 
-      return mineInfo
+      try {
+        wepy.setStorageSync('avatarLastUpdated', user.last)
+      } catch (e) {
+        console.log(e)
+      }
+
+      return user
     }
 
     return {}
