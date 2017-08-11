@@ -118,15 +118,9 @@ export async function mine () {
 
     if (resp.statusCode === 200) {
       // 解析 json 数据
-      let user = JSON.parse(resp.data.body)
+      let userInfo = JSON.parse(resp.data.body).info
 
-      try {
-        wepy.setStorageSync('avatarLastUpdated', user.last)
-      } catch (e) {
-        console.log(e)
-      }
-
-      return user
+      return userInfo
     }
 
     return {}

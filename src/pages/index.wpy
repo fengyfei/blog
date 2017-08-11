@@ -146,6 +146,7 @@
           await wepy.hideLoading()
           await wepy.showToast({
             title: '加载失败!',
+            mask: true,
             image: '../images/fail.png',
             duration: 2000
           })
@@ -179,6 +180,7 @@
         await wepy.hideLoading()
         await wepy.showToast({
           title: '加载失败!',
+          mask: true,
           image: '../images/fail.png',
           duration: 2000
         })
@@ -208,15 +210,8 @@
           self.message = issues[0]
           self.status = issues[1]
 
-          if (self.status === 0) {
+          if (!isNaN(self.status)) {
             await wepy.hideLoading()
-          } else {
-            await wepy.hideLoading()
-            await wepy.showToast({
-              title: '加载失败!',
-              image: '../images/fail.png',
-              duration: 2000
-            })
           }
         }
       } catch (e) {

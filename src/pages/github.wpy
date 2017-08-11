@@ -180,6 +180,7 @@
           await wepy.hideLoading()
           await wepy.showToast({
             title: '加载失败!',
+            mask: true,
             image: '../images/fail.png',
             duration: 1500
           })
@@ -213,6 +214,7 @@
           await wepy.hideLoading()
           await wepy.showToast({
             title: '加载失败!',
+            mask: true,
             image: '../images/fail.png',
             duration: 1500
           })
@@ -256,6 +258,7 @@
         await wepy.hideLoading()
         await wepy.showToast({
           title: '加载失败!',
+          mask: true,
           image: '../images/fail.png',
           duration: 1500
         })
@@ -267,36 +270,39 @@
     async onReachBottom() {
       let self = this
 
-      if (self.page === 1) {
-        wepy.showLoading({
-          title: '正在加载...',
-          mask: true
-        })
+      if (!self.status) {
+        if (self.page === 1) {
+          wepy.showLoading({
+            title: '正在加载...',
+            mask: true
+          })
 
-        self.page += 1
+          self.page += 1
 
-        let data = await getPopular(self.language, 2)
+          let data = await getPopular(self.language, 2)
 
-        self.popular = self.popular.concat(data[0])
-        self.status = data[1]
+          self.popular = self.popular.concat(data[0])
+          self.status = data[1]
 
-        if (self.status === 0) {
-          await wepy.hideLoading()
+          if (self.status === 0) {
+            await wepy.hideLoading()
+          } else {
+            await wepy.hideLoading()
+            await wepy.showToast({
+              title: '加载失败!',
+              mask: true,
+              image: '../images/fail.png',
+              duration: 1500
+            })
+          }
         } else {
-          await wepy.hideLoading()
           await wepy.showToast({
-            title: '加载失败!',
+            title: '就先这样吧!',
+            mask: true,
             image: '../images/fail.png',
-            duration: 1500
+            duration: 1000
           })
         }
-      } else {
-        await wepy.showToast({
-          title: '就先这样吧!',
-          mask: true,
-          image: '../images/fail.png',
-          duration: 1000
-        })
       }
 
       this.$apply()
