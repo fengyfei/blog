@@ -148,7 +148,7 @@
             title: '加载失败!',
             mask: true,
             image: '../images/fail.png',
-            duration: 2000
+            duration: 1500
           })
         }
 
@@ -182,7 +182,7 @@
           title: '加载失败!',
           mask: true,
           image: '../images/fail.png',
-          duration: 2000
+          duration: 1500
         })
       }
 

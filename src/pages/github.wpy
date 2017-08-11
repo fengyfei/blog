@@ -300,7 +300,7 @@
             title: '就先这样吧!',
             mask: true,
             image: '../images/fail.png',
-            duration: 1000
+            duration: 1500
           })
         }
       }
