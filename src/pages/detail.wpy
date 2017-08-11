@@ -46,8 +46,6 @@
 
 <script>
   import wepy from 'wepy'
-  import { getHeight } from '../util/system'
-  
   var weMark = require('../libs/wemark/wemark')
 
   export default class Detail extends wepy.page {

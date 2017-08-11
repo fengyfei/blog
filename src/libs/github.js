@@ -61,7 +61,7 @@ export async function mapIssues () {
       }
 
       data.map.forEach((item) => {
-        images.push(item.url)
+        images.unshift(item.url)
       })
 
       return [images, last]
@@ -89,11 +89,11 @@ export async function listIssues () {
         el.labels.forEach((l) => {
           labels.push(l.name)
         })
-
+        
         // 将数据存入变量 issues
-        issues.unshift({
+        issues.push({
           title: el.title,
-          created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
+          created: moment(el.created_at).format('YYYY-MM-DD HH:mm:ss'),
           labels: (labels.length === 0) ? '' : labels.join(','),
           body: el.body,
           url: el.url

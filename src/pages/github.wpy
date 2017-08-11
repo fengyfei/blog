@@ -130,7 +130,6 @@
 
 <script>
   import wepy from 'wepy'
-  import { getHeight } from '../util/system'
   import Popular from '../components/popular'
   import { getPopular } from '../libs/github'
 

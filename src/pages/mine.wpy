@@ -94,7 +94,6 @@
 
 <script>
   import wepy from 'wepy'
-  import { getHeight } from '../util/system'
   import { mine } from '../libs/github'
 
   export default class Mine extends wepy.page {
@@ -122,7 +121,7 @@
         wepy.showActionSheet({
           itemList: [item]
         }).then(function() {
-          // 点击列表项即可复制    
+          // 点击列表项即可复制
           wx.setClipboardData({
             data: item,
             success: function(res) {

@@ -85,7 +85,7 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '技术资讯'
+      navigationBarTitleText: '博客'
     }
 
     components = {
@@ -166,7 +166,7 @@
 
       let windowSize = await getWindowSize()
       let issues = await listIssues()
-      
+
       self.windowWidth = windowSize.windowWidth
       self.windowHeight = windowSize.windowHeight
 
@@ -196,7 +196,7 @@
         let lastUpdated = wepy.getStorageSync('lastUpdated')
 
         let data = await mapIssues()
-        
+
         if (lastUpdated !== data[1]) {
           self.images = data[0]
 
