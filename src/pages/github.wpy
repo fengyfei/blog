@@ -85,26 +85,28 @@
 <template>
   <view class="content">
     <view class="topBorder"></view>
-    <view class="tab">
+    <view wx:if="{{status === 0}}">
+      <view class="tab">
       <view class="tabContent">
         <view
           wx:for="{{tab}}"
           wx:key="{{index}}"
           id="{{index}}"
           @tap="onChoose">
-        <view wx:if="{{currentTargetId === index}}" class="tabItem active_tabItem">
-          <text class="tabText active_tabText">{{item}}</text>
-        </view>
-        <view wx:else class="tabItem">
-          <text class="tabText">{{item}}</text>
+            <view wx:if="{{currentTargetId === index}}" class="tabItem active_tabItem">
+              <text class="tabText active_tabText">{{item}}</text>
+            </view>
+            <view wx:else class="tabItem">
+              <text class="tabText">{{item}}</text>
+            </view>
+          </view>
         </view>
       </view>
+      <view class="page">
+        <repeat for="{{popular}}" key="index" index="index" item="item">
+          <popular :message="item" :width="windowWidth" />
+        </repeat>
       </view>
-    </view>
-    <view class="page" wx:if="{{status === 0}}">
-      <repeat for="{{popular}}" key="index" index="index" item="item">
-        <popular :message="item" :width="windowWidth" />
-      </repeat>
     </view>
     <view
       wx:else
@@ -264,35 +266,37 @@
     async onReachBottom() {
       let self = this
 
-      if (self.page < 6) {
-        wepy.showLoading({
-        title: '正在加载...',
-        mask: true
-      })
+      if (!self.status) {
+        if (self.page === 1) {
+          wepy.showLoading({
+            title: '正在加载...',
+            mask: true
+          })
 
-        self.page += 1
-        let data = await getPopular(self.language, self.page)
+          self.page += 1
+          let data = await getPopular(self.language, self.page)
 
-        self.popular = self.popular.concat(data[0])
-        self.status = data[1]
+          self.popular = self.popular.concat(data[0])
+          self.status = data[1]
 
-        if (self.status === 0) {
-          await wepy.hideLoading()
+          if (self.status === 0) {
+            await wepy.hideLoading()
+          } else {
+            await wepy.hideLoading()
+            await wepy.showToast({
+              title: '加载失败!',
+              image: '../images/fail.png',
+              duration: 2000
+            })
+          }
         } else {
-          await wepy.hideLoading()
           await wepy.showToast({
-            title: '加载失败!',
+            title: '这些就够了!',
+            mask: true,
             image: '../images/fail.png',
-            duration: 2000
+            duration: 1000
           })
         }
-      } else {
-        await wepy.showToast({
-          title: '只能这么多了!',
-          mask: true,
-          image: '../images/fail.png',
-          duration: 1000
-        })
       }
 
       this.$apply()
