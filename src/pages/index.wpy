@@ -194,9 +194,6 @@
         let lastUpdated = wepy.getStorageSync('lastUpdated')
 
         let data = await mapIssues()
-
-        console.log(lastUpdated)
-        console.log(data)
         
         if (lastUpdated !== data[1]) {
           self.images = data[0]

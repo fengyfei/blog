@@ -84,22 +84,20 @@ export async function listIssues () {
       let issues = []
 
       resp.data.forEach((el) => {
-        if (el.number !== 5) {
-          let labels = []
+        let labels = []
 
-          el.labels.forEach((l) => {
-            labels.push(l.name)
-          })
+        el.labels.forEach((l) => {
+          labels.push(l.name)
+        })
 
-          // 将数据存入变量 issues
-          issues.unshift({
-            title: el.title,
-            created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
-            labels: (labels.length === 0) ? '' : labels.join(','),
-            body: el.body,
-            url: el.url
-          })
-        }
+        // 将数据存入变量 issues
+        issues.unshift({
+          title: el.title,
+          created: moment(el.created_at).format('YYYY-MM-DD HH:mm:SS'),
+          labels: (labels.length === 0) ? '' : labels.join(','),
+          body: el.body,
+          url: el.url
+        })
       })
 
       return [issues, 0]

@@ -168,10 +168,7 @@
         let avatarLastUpdated = wepy.getStorageSync('avatarLastUpdated')
 
         let user = await mine()
-
-        console.log(avatarLastUpdated)
-        console.log(user)
-
+        
         if (avatarLastUpdated !== user.last) {
           self.userInfo = user.info
         }
