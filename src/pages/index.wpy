@@ -81,6 +81,7 @@
   import wepy from 'wepy'
   import Abstract from '../components/abstract'
   import { mapIssues, listIssues } from '../libs/github'
+  import { getWindowSize } from '../util/system'
 
   export default class Index extends wepy.page {
     config = {
@@ -163,7 +164,7 @@
         mask: true
       })
 
-      let windowSize = await getWindowSize()
+      let windowSize = getWindowSize()
       let issues = await listIssues()
 
       self.windowWidth = windowSize.windowWidth
