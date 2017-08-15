@@ -46,23 +46,35 @@ export async function mapIssues () {
     let resp = await wepy.request({url: BaseURL + Github.Index})
 
     if (resp.statusCode === 200) {
-      let images = []
       let last = ''
+      let images = []
+      let mapImage = []
 
       // 解析 json 数据
       let data = JSON.parse(resp.data.body)
 
       last = data.last
+      mapImage = data.map
+
+      let issues = (await listIssues())[0]
+
+      for (let i = 0; i < issues.length; i++) {
+        for (let j = 0; j < mapImage.length; j++) {
+          if (issues[i].number === mapImage[j].id) {
+            images.push(mapImage[j].url)
+            break
+          }
+        }
+        if (!images[i]) {
+          images.unshift('')
+        }
+      }
 
       try {
         wepy.setStorageSync('lastUpdated', data.last)
       } catch (e) {
         console.log(e)
       }
-
-      data.map.forEach((item) => {
-        images.unshift(item.url)
-      })
 
       return [images, last]
     }
@@ -89,10 +101,11 @@ export async function listIssues () {
         el.labels.forEach((l) => {
           labels.push(l.name)
         })
-        
+
         // 将数据存入变量 issues
         issues.push({
           title: el.title,
+          number: el.number,
           created: moment(el.created_at).format('YYYY-MM-DD HH:mm:ss'),
           labels: (labels.length === 0) ? '' : labels.join(','),
           body: el.body,
