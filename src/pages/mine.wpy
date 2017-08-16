@@ -105,7 +105,7 @@
       windowWidth: 0,
       windowHeight: 0,
       userInfo: null,
-      label: ['博客', 'Github', 'Email']
+      label: ['技术猫', 'Github', 'Email']
     }
 
     methods = {
